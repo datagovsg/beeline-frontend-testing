@@ -1,10 +1,6 @@
 // spec.js
 
-describe('Protractor Demo App', function() {
-  // var firstNumber = element(by.model('first'));
-  // var secondNumber = element(by.model('second'));
-  // var goButton = element(by.id('gobutton'));
-  // var latestResult = element(by.binding('latest'));
+describe('Beeline App', function() {
 
   beforeEach(function() {
     browser.get('https://app.beeline.sg/');
@@ -12,7 +8,7 @@ describe('Protractor Demo App', function() {
   });
 
 
-// Is site alive?
+// Basic Health Check
 // ===================
 // Objective: Ensure that the app.beeline.sg site is alive and the 
 //            connection from Intro page to Routes page works
@@ -33,7 +29,7 @@ describe('Protractor Demo App', function() {
   });
 
 
-// Search Route(s)
+// Search Route Flow
 // ===================
 // Objective: Ensure that the search function returns available routes on the front-end.
 // Test: Enter a location name into the search bar in the Routes page of the Beeline app.
@@ -52,7 +48,7 @@ describe('Protractor Demo App', function() {
 // TO-DO
 
 
-// Route > Select This Stop Button Tests
+// Route Booking Flow > Select This Stop Button Tests
 // ====================
 
 // Objective: Ensure that the Select This Stop Button is not clickable until one Pickup Stop is selected.
@@ -151,7 +147,7 @@ describe('Protractor Demo App', function() {
 
   });
 
-// Route > Book Next Trip Button Tests
+// Route Booking Flow > Book Next Trip Button Tests
 // ====================
 
 // Objective: Ensure that the Book Next Trip Button is not clickable until Pickup and Dropoff Stops are picked.
@@ -280,14 +276,151 @@ describe('Protractor Demo App', function() {
   });
 
 
-// Objective:
-// Test:
-// Expected Result:
+// TO-DO: Tests for the Post-login Route Flow
 
 
 
-// Objective:
-// Test:
-// Expected Result:
+
+// Crowdstart Route Booking Flow > Book Next Trip Button Tests
+// ====================
+// Objective: Get to the crowdstart page from the routes page
+// Test: Click on the crowdstart button and the okay button
+// Expected Result: Current URL is the crowdstart page URL
+  it('should get to the crowdstart page', function() {
+
+    // Click on 'Crowdstart' button in the tabs
+    browser.waitForAngular();
+    var crowdStartButton = $('#tabs > ion-tabs > div.tab-nav.tabs > a.nav-text.nav-kickstarter.tab-item');
+    crowdStartButton.click();
+
+    // Click on 'Ok' button on the modal on the Crowdstart page
+    browser.waitForAngular();
+    var okayButton = $('body > div.popup-container.popup-showing.active > div > div.popup-buttons > button');
+    okayButton.click();
+
+    browser.waitForAngular();
+    expect(browser.getCurrentUrl()).toEqual('https://app.beeline.sg/tabs/crowdstart');
+  });
+
+// Objective: Purchase a crowdstart route pass for one crowdstart route
+// Test 1: Click on a crowdstart route and click on the 'Review my order' button without clicking the 'Yes, I want to pre-order' radio button
+// Expected Result: 'Review my order' button should not be enabled
+  it('should not be able to click on \'Review my order\' without clicking on the \'Yes, I want to pre-order\' radio button', function() {
+
+    // Click on 'Crowdstart' button in the tabs
+    browser.waitForAngular();
+    var crowdStartButton = $('#tabs > ion-tabs > div.tab-nav.tabs > a.nav-text.nav-kickstarter.tab-item');
+    crowdStartButton.click();
+
+    // Click on 'Ok' button on the modal on the Crowdstart page
+    browser.waitForAngular();
+    var okayButton = $('body > div.popup-container.popup-showing.active > div > div.popup-buttons > button');
+    okayButton.click();
+
+    // Click on the first crowdstart route on the Crowdstart page
+    browser.waitForAngular();
+    var firstCrowdStartRoute = $('#tabs > ion-tabs > div:nth-child(3) > ion-nav-view > ion-view > ion-content > ion-content > div > div:nth-child(3) > ion-item:nth-child(1)');
+    firstCrowdStartRoute.click();
+
+    // The 'Review my order' button should not be enabled
+    browser.waitForAngular();
+    expect(!$('#pg_kickstarter_detail > ion-content > div > div:nth-child(3) > div.select-bid.item-text-wrap > button').isEnabled());
+  });
+
+// Objective: Purchase a crowdstart route pass for one crowdstart route
+// Test 2: Click on a crowdstart route and click on the 'Review my order' button after clicking the 'Yes, I want to pre-order' radio button
+// Expected Result: 'Review my order' button should be enabled
+  it('should be able to click on \'Review my order\' after clicking on the \'Yes, I want to pre-order\' radio button', function() {
+
+    // Click on 'Crowdstart' button in the tabs
+    browser.waitForAngular();
+    var crowdStartButton = $('#tabs > ion-tabs > div.tab-nav.tabs > a.nav-text.nav-kickstarter.tab-item');
+    crowdStartButton.click();
+
+    // Click on the first crowdstart route on the Crowdstart page
+    browser.waitForAngular();
+    var firstCrowdStartRoute = $('#tabs > ion-tabs > div:nth-child(3) > ion-nav-view > ion-view > ion-content > ion-content > div > div:nth-child(3) > ion-item:nth-child(1)');
+    firstCrowdStartRoute.click();
+
+    // Click on the 'Yes, I want to pre-order' radio button
+    browser.waitForAngular();
+    var verifyButton = $('#pg_kickstarter_detail > ion-content > div > div:nth-child(3) > div.select-bid.item-text-wrap > ion-list > div > ion-item');
+    verifyButton.click();
+
+    // The 'Review my order' button should be enabled
+    browser.waitForAngular();
+    expect($('#pg_kickstarter_detail > ion-content > div > div:nth-child(3) > div.select-bid.item-text-wrap > button').isEnabled());
+  });
+
+
+// Objective: Pre-order crowdstart summary flow
+// Test: On the Pre-order summary page, click on the 'Log in' button without clicking on the 'I read and agree with the above terms...' button.
+// Expected Result: 'Log in' button should be disabled.
+
+  it('should not get to the \'Log in\' page without clicking on the \'I read and agree with the above terms...\' button', function() {
+
+    // Click on 'Crowdstart' button in the tabs
+    browser.waitForAngular();
+    var crowdStartButton = $('#tabs > ion-tabs > div.tab-nav.tabs > a.nav-text.nav-kickstarter.tab-item');
+    crowdStartButton.click();
+
+    // Click on the first crowdstart route on the Crowdstart page
+    browser.waitForAngular();
+    var firstCrowdStartRoute = $('#tabs > ion-tabs > div:nth-child(3) > ion-nav-view > ion-view > ion-content > ion-content > div > div:nth-child(3) > ion-item:nth-child(1)');
+    firstCrowdStartRoute.click();
+
+    // Click on the 'Yes, I want to pre-order' radio button
+    browser.waitForAngular();
+    var verifyButton = $('#pg_kickstarter_detail > ion-content > div > div:nth-child(3) > div.select-bid.item-text-wrap > ion-list > div > ion-item');
+    verifyButton.click();
+
+    // Click on the 'Review my order' button
+    browser.waitForAngular();
+    var reviewOrderButton = $('#pg_kickstarter_detail > ion-content > div > div:nth-child(3) > div.select-bid.item-text-wrap > button');
+    reviewOrderButton.click();
+
+    // The 'Log in' button should not be enabled
+    browser.waitForAngular();
+    expect(!$('#pg_kickstarter_summary > ion-content > div > div:nth-child(6) > button').isEnabled());
+
+  });
+
+  // Test 2: On the Pre-order summary page, click on the 'Log in' button without clicking on the 'I read and agree with the above terms...' button.
+  // Expected Result: 'Log in' button should be disabled.
+
+  it('should get to the \'Log in\' page after clicking on the \'I read and agree with the above terms...\' button', function() {
+
+    // Click on 'Crowdstart' button in the tabs
+    browser.waitForAngular();
+    var crowdStartButton = $('#tabs > ion-tabs > div.tab-nav.tabs > a.nav-text.nav-kickstarter.tab-item');
+    crowdStartButton.click();
+
+    // Click on the first crowdstart route on the Crowdstart page
+    browser.waitForAngular();
+    var firstCrowdStartRoute = $('#tabs > ion-tabs > div:nth-child(3) > ion-nav-view > ion-view > ion-content > ion-content > div > div:nth-child(3) > ion-item:nth-child(1)');
+    firstCrowdStartRoute.click();
+
+    // Click on the 'Yes, I want to pre-order' radio button
+    browser.waitForAngular();
+    var verifyButton = $('#pg_kickstarter_detail > ion-content > div > div:nth-child(3) > div.select-bid.item-text-wrap > ion-list > div > ion-item');
+    verifyButton.click();
+
+    // Click on the 'Review my order' button
+    browser.waitForAngular();
+    var reviewOrderButton = $('#pg_kickstarter_detail > ion-content > div > div:nth-child(3) > div.select-bid.item-text-wrap > button');
+    reviewOrderButton.click();
+
+    // Click on the 'I read and agree with the above terms...' button
+    browser.waitForAngular();
+    var checkTermsButton = $('#pg_kickstarter_summary > ion-content > div > div:nth-child(5) > div');
+    checkTermsButton.click();
+
+    // The 'Log in' button should be enabled
+    browser.waitForAngular();
+    expect($('#pg_kickstarter_summary > ion-content > div > div:nth-child(6) > button').isEnabled());
+
+  });
+
+// TO-DO: Tests for the Post-login Crowdstart Flow
 
 });
