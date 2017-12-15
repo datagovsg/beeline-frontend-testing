@@ -17,11 +17,12 @@ Beeline currently has two levels of frontend testing:
 #### Active Route Booking Flow
 - [x] Test that the routes page > selection of one route flow is working 
 - [x] Test that the selection of one pickup and dropoff stop flow is working 
-- [ ] Test that the booking of one active route flow is working
+- [ ] Test that the post-login booking of one active route flow is working
 
 #### Crowdstart Route Booking Flow
-- [ ] Test that the crowdstart page > selection of one crowdstart route flow is working 
-- [ ] Test that the booking of one crowdstart route flow is working
+- [x] Test that the crowdstart page > selection of one crowdstart route flow is working 
+- [x] Test that the pre-login booking of one crowdstart route flow is working
+- [ ] Test that the post-login booking of one crowdstart route flow is working
 
 #### Login Flow
 - [ ] Test that login with valid username and password input is successful
@@ -29,6 +30,10 @@ Beeline currently has two levels of frontend testing:
 
 #### Settings Flow
 - [ ] Test that all components in the settings page can be viewed
+
+#### Making the Protractor tests run in 10 min intervals
+- [ ] Hosting tests non-locally
+- [ ] Create test failure notification to Beeline team
 
 </br>
 
