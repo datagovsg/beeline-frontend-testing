@@ -312,11 +312,6 @@ describe('Beeline App', function() {
     var crowdStartButton = $('#tabs > ion-tabs > div.tab-nav.tabs > a.nav-text.nav-kickstarter.tab-item');
     crowdStartButton.click();
 
-    // Click on 'Ok' button on the modal on the Crowdstart page
-    browser.waitForAngular();
-    var okayButton = $('body > div.popup-container.popup-showing.active > div > div.popup-buttons > button');
-    okayButton.click();
-
     // Click on the first crowdstart route on the Crowdstart page
     browser.waitForAngular();
     var firstCrowdStartRoute = $('#tabs > ion-tabs > div:nth-child(3) > ion-nav-view > ion-view > ion-content > ion-content > div > div:nth-child(3) > ion-item:nth-child(1)');
